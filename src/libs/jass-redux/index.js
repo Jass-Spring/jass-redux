@@ -17,7 +17,7 @@ export function createStore(reducer) {
   const listeners = []
 
   // 初始化state
-  reducer(state, { type: '@jass-redux' })
+  state = reducer(state, { type: '@jass-redux' })
 
   // 得到内部管理state对象
   function getState() {
@@ -43,7 +43,7 @@ export function createStore(reducer) {
 // 接收一个包含多个reducer函数的对象，返回新的reducer函数
 export function combineReducers(reducers) {
   // 这个函数会传给createStore
-  return function (state, action) {
+  return function (state = {}, action) {
     // 依次调用所有的reducer函数，得到n个新的子状态，封装成对象并返回
     return Object.keys(reducers).reduce((newState, key) => {
       newState[key] = reducers[key](state[key], action)
